@@ -11,7 +11,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "users")
-@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
