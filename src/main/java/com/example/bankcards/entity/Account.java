@@ -106,7 +106,7 @@ public class Account {
     }
 
     public void block() {
-        if (AccountStatus.BLOCKED.equals(status)) {
+        if (status == AccountStatus.BLOCKED) {
             throw new IllegalStateException("Account is already blocked");
         }
         this.status = AccountStatus.BLOCKED;
