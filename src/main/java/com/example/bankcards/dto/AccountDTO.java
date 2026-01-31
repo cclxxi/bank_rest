@@ -1,4 +1,9 @@
 package com.example.bankcards.dto;
 
-public class AccountDTO {
-}
+import java.math.BigDecimal;
+
+public record AccountDTO(
+        String number,
+        BigDecimal balance,
+        String status
+) {}
