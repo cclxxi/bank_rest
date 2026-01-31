@@ -7,9 +7,14 @@ import com.example.bankcards.dto.UserProfileDTO;
 import java.util.List;
 
 public interface UserService {
+
     UserProfileDTO getCurrentUserProfile();
-    AdminUserDTO getUserById();
+
+    AdminUserDTO getUserById(Long userId);
+
     List<AdminUserSummaryDTO> getAllUsers();
+
     void activateUser(Long userId);
+
     void blockUser(Long userId);
 }
