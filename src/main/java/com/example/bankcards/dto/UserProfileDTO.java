@@ -1,4 +1,7 @@
 package com.example.bankcards.dto;
 
-public class UserProfileDTO {
-}
+public record UserProfileDTO(
+        String login,
+        String name,
+        String surname
+) {}
