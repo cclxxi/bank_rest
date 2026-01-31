@@ -1,20 +1,12 @@
 package com.example.bankcards.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class LoginRequest {
+public record LoginRequest(
 
-    @NonNull
-    @Email
-    private String email;
+        @NotBlank
+        String login,
 
-    @NonNull
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$")
-    private String password;
-}
+        @NotBlank
+        String password
+) {}
