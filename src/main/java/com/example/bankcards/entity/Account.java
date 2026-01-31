@@ -44,10 +44,10 @@ public class Account {
     @Version
     private Long version;
 
-    @Column(unique = false, nullable = false, updatable = false)
+    @Column(name = "created_at", unique = false, nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(unique = false, nullable = false, updatable = true)
+    @Column(name = "updated_at",unique = false, nullable = false, updatable = true)
     private LocalDateTime updatedAt;
 
     @PrePersist
