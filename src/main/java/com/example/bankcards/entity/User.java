@@ -1,5 +1,6 @@
 package com.example.bankcards.entity;
 
+import com.example.bankcards.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,12 +29,16 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(unique = false, nullable = false)
-    private String passwordHash;
+    @Column(name = "password_hashed", unique = false, nullable = false)
+    private String passwordHashed;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", unique = false, nullable = false)
+    private UserStatus status;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Account> accounts = new HashSet<>();
@@ -58,5 +63,19 @@ public class User {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public void activate() {
+        if (UserStatus.ACTIVE.equals(status)) {
+            throw new IllegalStateException("User is already active");
+        }
+        status = UserStatus.ACTIVE;
+    }
+
+    public void block() {
+        if (UserStatus.BLOCKED.equals(status)) {
+            throw new IllegalStateException("User is already blocked");
+        }
+        status = UserStatus.BLOCKED;
     }
 }
