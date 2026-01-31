@@ -25,7 +25,7 @@ public class Account {
     private String number;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_user_id", unique = false, nullable = false)
+    @JoinColumn(name = "user_id", unique = false, nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
