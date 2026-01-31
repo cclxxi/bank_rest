@@ -1,4 +1,12 @@
 package com.example.bankcards.dto;
 
-public class AdminCardSummaryDTO {
-}
+import java.time.YearMonth;
+
+public record AdminCardSummaryDTO(
+        Long cardId,
+        String panMasked,
+        String status,
+        YearMonth expirationDate,
+        String accountNumber,
+        Long userId
+) {}

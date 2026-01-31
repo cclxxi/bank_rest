@@ -1,4 +1,10 @@
 package com.example.bankcards.dto;
 
-public class CardDTO {
-}
+import java.time.YearMonth;
+
+public record CardDTO(
+        Long id,
+        String panMasked,
+        String status,
+        YearMonth expirationDate
+) {}
