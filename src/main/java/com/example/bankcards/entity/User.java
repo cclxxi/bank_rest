@@ -66,16 +66,20 @@ public class User {
     }
 
     public void activate() {
-        if (UserStatus.ACTIVE.equals(status)) {
+        if (status == UserStatus.ACTIVE) {
             throw new IllegalStateException("User is already active");
         }
         status = UserStatus.ACTIVE;
     }
 
     public void block() {
-        if (UserStatus.BLOCKED.equals(status)) {
+        if (status == UserStatus.BLOCKED) {
             throw new IllegalStateException("User is already blocked");
         }
         status = UserStatus.BLOCKED;
+    }
+
+    public boolean isActive() {
+        return status == UserStatus.ACTIVE;
     }
 }
