@@ -3,6 +3,9 @@ package com.example.bankcards.service.impl;
 import com.example.bankcards.entity.Account;
 import com.example.bankcards.entity.Transaction;
 import com.example.bankcards.enums.TransactionType;
+import com.example.bankcards.exception.rest.AccessDeniedBusinessException;
+import com.example.bankcards.exception.rest.ConflictException;
+import com.example.bankcards.exception.rest.NotFoundException;
 import com.example.bankcards.repository.AccountRepository;
 import com.example.bankcards.repository.TransactionRepository;
 import com.example.bankcards.service.TransferService;
@@ -30,21 +33,21 @@ public class TransferServiceImpl implements TransferService {
 
         // 1. idempotency
         if (transactionRepository.existsByReference(reference)) {
-            throw new IllegalStateException("Transaction already exists");
+            throw new ConflictException("Transaction already exists");
         }
 
         // 2. fromAccount с LOCK
         Account fromAccount = accountRepository
                 .findForUpdateByUser_Id(currentUserId)
-                .orElseThrow(() -> new IllegalStateException("Account not found"));
+                .orElseThrow(() -> new ConflictException("Account not found"));
 
         // 3. toAccount без lock
         Account toAccount = accountRepository.findById(toAccountId)
-                .orElseThrow(() -> new IllegalStateException("Target account not found"));
+                .orElseThrow(() -> new NotFoundException("Target account not found"));
 
         // 4. domain ownership check (на всякий случай)
         if (!fromAccount.getUser().getId().equals(currentUserId)) {
-            throw new SecurityException("Access denied");
+            throw new AccessDeniedBusinessException("Access denied");
         }
 
         // 5. создать транзакцию
