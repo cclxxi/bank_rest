@@ -13,4 +13,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Account> findForUpdateByNumber(String number);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<Account> findForUpdateByUser_Id(Long userId);
 }
