@@ -4,6 +4,7 @@ import com.example.bankcards.enums.TransactionStatus;
 import com.example.bankcards.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -45,6 +46,7 @@ public class Transaction {
     @Column(unique = true, nullable = false, updatable = false)
     private String reference;
 
+    @Getter
     @Column(name = "created_at", unique = false, nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
