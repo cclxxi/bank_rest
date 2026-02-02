@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
@@ -81,5 +80,21 @@ public class User {
 
     public boolean isActive() {
         return status == UserStatus.ACTIVE;
+    }
+
+    public static User create(
+            String email,
+            String name,
+            String surname,
+            String passwordHash,
+            Role role
+    ) {
+        User user = new User();
+        user.email = email;
+        user.name = name;
+        user.surname = surname;
+        user.passwordHashed = passwordHash;
+        user.role = role;
+        return user;
     }
 }

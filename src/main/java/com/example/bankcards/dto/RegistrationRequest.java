@@ -2,11 +2,13 @@ package com.example.bankcards.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 
 public record RegistrationRequest(
 
         @NotBlank
         @Size(min = 3, max = 50)
+        @Getter
         String login,
 
         @NotBlank
