@@ -1,8 +1,8 @@
 package com.example.bankcards.config;
 
+import com.example.bankcards.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -11,12 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -27,27 +31,38 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                // Authorization configuration
+
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
                 .authorizeHttpRequests(auth -> auth
-                        // Actuator health endpoints (allow anonymous health probes only)
-                        .requestMatchers("/actuator/health",
+
+                        // public auth endpoints
+                        .requestMatchers("/auth/**").permitAll()
+
+                        // actuator health
+                        .requestMatchers(
+                                "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/liveness",
-                                "/actuator/readiness").permitAll()
-                        // Any other actuator endpoints require authentication
-                        .requestMatchers("/actuator/**").authenticated()
+                                "/actuator/readiness"
+                        ).permitAll()
 
-                        // Public endpoints
+                        // swagger
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
 
-                        // Swagger UI
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html",
-                                "/swagger-resources/**", "/webjars/**").permitAll()
-
-                        // All other endpoints require authentication
+                        // everything else
                         .anyRequest().authenticated()
                 )
-                // Session policy
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+                // JWT filter
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }
