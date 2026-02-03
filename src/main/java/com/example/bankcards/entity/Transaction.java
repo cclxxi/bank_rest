@@ -11,12 +11,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @Table(name = "transactions")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,7 +47,6 @@ public class Transaction {
     @Column(unique = true, nullable = false, updatable = false)
     private String reference;
 
-    @Getter
     @Column(name = "created_at", unique = false, nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

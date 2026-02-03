@@ -15,8 +15,7 @@ import java.time.YearMonth;
 public class Card {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "card_seq")
-    @Column(name = "card_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "pan_encrypted", unique = true, nullable = false, updatable = false)
