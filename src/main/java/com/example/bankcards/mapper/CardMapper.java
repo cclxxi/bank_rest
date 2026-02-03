@@ -14,5 +14,6 @@ public interface CardMapper {
     @Mapping(target = "cardId", source = "id")
     @Mapping(target = "accountNumber", source = "account.number")
     @Mapping(target = "userId", source = "account.user.id")
+    @Mapping(target = "status", source = "status")
     AdminCardSummaryDTO toAdminSummaryDto(Card card);
 }

@@ -9,12 +9,17 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
+    
+    @Mapping(target = "login", source = "email")
     UserProfileDTO toProfileDto(User user);
 
+    @Mapping(target = "login", source = "email")
     @Mapping(target = "role", source = "role.name")
+    @Mapping(target = "active", expression = "java(user.isActive())")
     AdminUserDTO toAdminDto(User user);
 
+    @Mapping(target = "login", source = "email")
     @Mapping(target = "role", source = "role.name")
+    @Mapping(target = "active", expression = "java(user.isActive())")
     AdminUserSummaryDTO toAdminSummaryDto(User user);
 }

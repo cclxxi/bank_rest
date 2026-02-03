@@ -8,5 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
 
+    @Mapping(target = "type", source = "type")
+    @Mapping(target = "status", source = "status")
     TransactionDTO toDto(Transaction transaction);
 }
