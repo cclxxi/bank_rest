@@ -1,8 +1,79 @@
-#
-# application.yml — главный конфигурационный файл Spring Boot.
+# application.yml
+# General settings
+spring:
+  application:
+    name: "Bank Cards Rest API"
+  profiles:
+    active: dev
 
-Что нужно сделать:
-  - Указать настройки подключения к базе данных.
-  - Указать порт приложения.
-  - Настроить параметры безопасности и JWT.
-  - Включить Swagger UI.
+
+  # Enable ANSI output
+  output:
+    ansi:
+      enabled: ALWAYS
+  web:
+    resources:
+      add-mappings: true
+      cache:
+        period: 3600
+
+# Server
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: false
+    whitelabel:
+      enabled: false
+  tomcat:
+    max-swallow-size: 20MB
+    max-http-form-post-size: 20MB
+
+
+# Logging
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+  charset:
+    console: UTF-8
+
+# JWT Configuration
+jwt:
+  secret: "BankCards123456789012345678901234567890"
+  expiration: 86400000  # 24 hours in milliseconds
+  header: "Authorization"
+  tokenPrefix: "Bearer "
+
+
+# SpringDoc OpenAPI UI Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+    disable-swagger-default-url: true
+    csrf:
+      enabled: false
+    try-it-out-enabled: true
+    filter: true
+    syntax-highlight:
+      activated: true
+  show-actuator: false
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+  paths-to-match: /api/**
+  cache:
+    disabled: true
+  # Disable Spring Data REST integration with Swagger to prevent errors
+  data-rest:
+    use-hal: false
+    enabled: false
