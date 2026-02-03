@@ -3,8 +3,8 @@ spring:
   # Database
   datasource:
     url: jdbc:postgresql://localhost:5432/bank_rest
-    username: "bank_user"
-    password: "01020304"
+    username: bank_user
+    password: bank_password
     driver-class-name: org.postgresql.Driver
 
   # JPA/Hibernate
@@ -12,6 +12,8 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         format_sql: true
@@ -19,5 +21,5 @@ spring:
 
   # Liquibase
   liquibase:
-    change-log: classpath:db/changelog/master.yaml
+    change-log: classpath:db/migration/master.yaml
     enabled: true

@@ -7,6 +7,7 @@ spring:
     active: dev
 
 
+
   # Enable ANSI output
   output:
     ansi:
@@ -16,6 +17,8 @@ spring:
       add-mappings: true
       cache:
         period: 3600
+  jpa:
+    open-in-view: false
 
 # Server
 server:
