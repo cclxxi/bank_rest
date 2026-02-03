@@ -53,11 +53,6 @@ databaseChangeLog:
                   constraints:
                     nullable: true
 
-        - addCheckConstraint:
-            tableName: accounts
-            constraintName: chk_accounts_balance_positive
-            checkConstraint: "balance >= 0"
-
         - addForeignKeyConstraint:
             baseTableName: accounts
             baseColumnNames: user_id

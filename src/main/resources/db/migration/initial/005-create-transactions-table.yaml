@@ -59,11 +59,6 @@ databaseChangeLog:
                   constraints:
                     nullable: true
 
-        - addCheckConstraint:
-            tableName: transactions
-            constraintName: chk_transactions_amount_positive
-            checkConstraint: "amount > 0"
-
         - addForeignKeyConstraint:
             baseTableName: transactions
             baseColumnNames: from_account_id

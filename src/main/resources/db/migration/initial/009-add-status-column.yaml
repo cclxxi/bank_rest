@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-add-status-column
+      author: cclxxi
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: true
