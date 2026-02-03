@@ -1,4 +1,4 @@
-package com.example.bankcards.util;
+package com.example.bankcards.security;
 
 import com.example.bankcards.entity.User;
 import lombok.Getter;
@@ -15,6 +15,7 @@ public class CustomUserDetails implements UserDetails {
     private final Long userId;
     private final String login;
     private final String password;
+    @Getter
     private final String role;
     private final boolean active;
 

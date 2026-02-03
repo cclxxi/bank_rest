@@ -1,7 +1,7 @@
 package com.example.bankcards.service.impl;
 
 import com.example.bankcards.service.CurrentUserService;
-import com.example.bankcards.util.CustomUserDetails;
+import com.example.bankcards.security.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

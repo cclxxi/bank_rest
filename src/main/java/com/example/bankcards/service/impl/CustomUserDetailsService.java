@@ -2,7 +2,7 @@ package com.example.bankcards.service.impl;
 
 import com.example.bankcards.entity.User;
 import com.example.bankcards.repository.UserRepository;
-import com.example.bankcards.util.CustomUserDetails;
+import com.example.bankcards.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
