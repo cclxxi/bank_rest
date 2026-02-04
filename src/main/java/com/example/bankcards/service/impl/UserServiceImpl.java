@@ -10,15 +10,16 @@ import com.example.bankcards.exception.rest.ConflictException;
 import com.example.bankcards.mapper.UserMapper;
 import com.example.bankcards.repository.RoleRepository;
 import com.example.bankcards.repository.UserRepository;
+import com.example.bankcards.service.CurrentUserService;
 import com.example.bankcards.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -30,10 +31,11 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final CurrentUserService currentUserService;
 
     @Override
     public UserProfileDTO getCurrentUserProfile() {
-        User user = getCurrentUser();
+        User user = findUser(currentUserService.getCurrentUserId());
         return userMapper.toProfileDto(user);
     }
 
@@ -44,11 +46,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<AdminUserSummaryDTO> getAllUsers() {
-        return userRepository.findAll()
-                .stream()
-                .map(userMapper::toAdminSummaryDto)
-                .toList();
+    public Page<AdminUserSummaryDTO> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(userMapper::toAdminSummaryDto);
     }
 
     @Override
@@ -92,10 +92,5 @@ public class UserServiceImpl implements UserService {
     private User findUser(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
-    }
-
-    private User getCurrentUser() {
-        // через SecurityContext
-        throw new UnsupportedOperationException();
     }
 }

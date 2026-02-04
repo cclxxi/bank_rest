@@ -5,22 +5,24 @@ import com.example.bankcards.exception.rest.AccessDeniedBusinessException;
 import com.example.bankcards.exception.rest.BusinessException;
 import com.example.bankcards.exception.rest.ConflictException;
 import com.example.bankcards.exception.rest.NotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiError> handleNotFound(NotFoundException ex) {
+    @ExceptionHandler({NotFoundException.class, EntityNotFoundException.class})
+    public ResponseEntity<ApiError> handleNotFound(Exception ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiError.of(ex.getMessage()));
     }
 
-    @ExceptionHandler(AccessDeniedBusinessException.class)
-    public ResponseEntity<ApiError> handleAccessDenied(AccessDeniedBusinessException ex) {
+    @ExceptionHandler({AccessDeniedBusinessException.class, AccessDeniedException.class})
+    public ResponseEntity<ApiError> handleAccessDenied(Exception ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(ApiError.of(ex.getMessage()));
     }

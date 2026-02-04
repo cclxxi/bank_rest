@@ -25,9 +25,13 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     @Transactional
-    public void transferMoney(Long toAccountId,
+    public void transferMoney(String toAccountNumber,
                               BigDecimal amount,
                               String reference) {
+
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new ConflictException("Amount must be positive");
+        }
 
         Long currentUserId = currentUserService.getCurrentUserId();
 
@@ -42,7 +46,7 @@ public class TransferServiceImpl implements TransferService {
                 .orElseThrow(() -> new ConflictException("Account not found"));
 
         // 3. toAccount без lock
-        Account toAccount = accountRepository.findById(toAccountId)
+        Account toAccount = accountRepository.findByNumber(toAccountNumber)
                 .orElseThrow(() -> new NotFoundException("Target account not found"));
 
         // 4. domain ownership check (на всякий случай)

@@ -5,6 +5,7 @@ import com.example.bankcards.entity.Account;
 import com.example.bankcards.mapper.AccountMapper;
 import com.example.bankcards.repository.AccountRepository;
 import com.example.bankcards.service.AccountService;
+import com.example.bankcards.service.CurrentUserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+    private final CurrentUserService currentUserService;
 
     @Override
     public AccountDTO getUserAccount() {
@@ -47,7 +49,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Account findCurrentUserAccount() {
-        throw new UnsupportedOperationException();
+        return accountRepository.findByUser_Id(currentUserService.getCurrentUserId())
+                .orElseThrow(() -> new EntityNotFoundException("Account not found for current user"));
     }
 }
 
