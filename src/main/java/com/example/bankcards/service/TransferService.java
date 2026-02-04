@@ -4,5 +4,5 @@ import java.math.BigDecimal;
 
 public interface TransferService {
 
-    void transferMoney(Long toAccountId, BigDecimal amount, String reference);
+    void transferMoney(String toAccountNumber, BigDecimal amount, String reference);
 }
