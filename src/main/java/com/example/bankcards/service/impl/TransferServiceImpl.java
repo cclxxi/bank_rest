@@ -49,6 +49,11 @@ public class TransferServiceImpl implements TransferService {
         Account toAccount = accountRepository.findByNumber(toAccountNumber)
                 .orElseThrow(() -> new NotFoundException("Target account not found"));
 
+        // 3.1. Strict check: Target account must belong to the same user
+        if (!toAccount.getUser().getId().equals(currentUserId)) {
+            throw new AccessDeniedBusinessException("Transfers are only allowed between your own accounts/cards");
+        }
+
         // 4. domain ownership check (на всякий случай)
         if (!fromAccount.getUser().getId().equals(currentUserId)) {
             throw new AccessDeniedBusinessException("Access denied");
