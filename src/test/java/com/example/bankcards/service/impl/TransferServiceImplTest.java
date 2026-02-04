@@ -2,11 +2,7 @@ package com.example.bankcards.service.impl;
 
 import com.example.bankcards.entity.Account;
 import com.example.bankcards.entity.User;
-import com.example.bankcards.enums.AccountStatus;
-import com.example.bankcards.enums.TransactionType;
 import com.example.bankcards.exception.rest.AccessDeniedBusinessException;
-import com.example.bankcards.exception.rest.ConflictException;
-import com.example.bankcards.exception.rest.NotFoundException;
 import com.example.bankcards.repository.AccountRepository;
 import com.example.bankcards.repository.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
