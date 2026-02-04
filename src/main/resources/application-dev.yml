@@ -1,0 +1,25 @@
+# application-dev.yml
+spring:
+  # Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank_rest
+    username: bank_user
+    password: bank_password
+    driver-class-name: org.postgresql.Driver
+
+  # JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    generate-ddl: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # Liquibase
+  liquibase:
+    change-log: classpath:db/migration/master.yaml
+    enabled: true
