@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010-insert-default-roles
+      author: cclxxi
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: ADMIN
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: USER
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+  - changeSet:
+      id: 011-insert-default-admin
+      author: cclxxi
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: name
+                  value: Admin
+              - column:
+                  name: surname
+                  value: System
+              - column:
+                  name: email
+                  value: admin@example.com
+              - column:
+                  name: password_hashed
+                  value: $2a$10$8.UnVuG9HHgffUDAlk8q6uyzREX7BZ6BcVMCJl6IcE7fEyi5z5MVG
+              - column:
+                  name: role_id
+                  valueComputed: "(SELECT id FROM roles WHERE name = 'ADMIN')"
+              - column:
+                  name: status
+                  value: ACTIVE
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
